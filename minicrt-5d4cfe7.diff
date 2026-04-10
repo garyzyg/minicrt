@@ -1,0 +1,31 @@
+diff --git a/omaha/third_party/minicrt/fullpath.cc b/omaha/third_party/minicrt/fullpath.cc
+index 1672492..727930b 100644
+--- a/omaha/third_party/minicrt/fullpath.cc
++++ b/omaha/third_party/minicrt/fullpath.cc
+@@ -70,10 +70,10 @@ _TSCHAR * __cdecl _tfullpath(_TSCHAR *UserBuf, const _TSCHAR *path, size_t maxle
+         else
+             buf = UserBuf;
+ 
+-        count = GetFullPathName( path,
++        count = GetFullPathName( (LPCTSTR)path,
+                                   (int)maxlen,
+-                                  buf,
+-                                  &pfname );
++                                  (LPTSTR)buf,
++                                  (LPTSTR*)&pfname );
+ 
+         if (count >= maxlen) {
+             if (!UserBuf)
+diff --git a/omaha/third_party/minicrt/newdel.cc b/omaha/third_party/minicrt/newdel.cc
+index cfcfd2e..088680c 100644
+--- a/omaha/third_party/minicrt/newdel.cc
++++ b/omaha/third_party/minicrt/newdel.cc
+@@ -5,7 +5,7 @@
+ #include "libctiny.h"
+ #include <windows.h>
+ 
+-void * __cdecl operator new(unsigned int s) {
++void * __cdecl operator new(size_t s) {
+   return HeapAlloc( GetProcessHeap(), 0, s );
+ }
+ 
