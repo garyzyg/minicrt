@@ -20,7 +20,7 @@ CD omaha\third_party\minicrt
 
 git apply %~dp0\minicrt-5d4cfe7.diff
 ECHO #include "config.h">> libctiny.h
-MKLINK config.h %~dp0\config.h
+FOR /F "DELIMS=" %%I IN ('CD %~dp0 ^& DIR /B *.h *.c *.cc *.cpp') DO MKLINK %%I %~dp0\%%I
 
 %BUILD_MAKE_PROGRAM% /f %~dp0\Makefile Platform=%Platform%
 MOVE *.lib %~dp0
